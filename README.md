@@ -4,7 +4,7 @@ Share Content and Image to Facebook, twitter, Instagram, mail and to mobile numb
  * share content , url and image into social networtk like facebook, twitter, email, messanger and instagrtam
  * used native iOS api 
  
- ![Toast message](https://github.com/yudiz-solutions/SocialShare/blob/master/Screenshort/image.gif)
+ ![Toast message](https://github.com/yudiz-solutions/YMSocialShare/blob/master/Screenshort/image.gif)
 
 And here's some code! :+1:
 * facebook and twitter 
