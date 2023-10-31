@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     var arrFeature = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        arrFeature = ["facebook","twitter","message","message with attachment","mail","mail with attachment","instagram","Other App"]
+        arrFeature = ["message","message with attachment","mail","mail with attachment","instagram","Other App"]
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,19 +37,19 @@ extension ViewController : UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch arrFeature[indexPath.row] {
             case "facebook":
-                YMSocialShare.shareOn(serviceType:.facebook, text:"facebook", url:"www.yudiz.com",image: #imageLiteral(resourceName: "steve jobs"))
+                YZSocialShare.shareOn(serviceType:.facebook, text:"facebook", url:"www.yudiz.com",image: #imageLiteral(resourceName: "steve jobs"))
             case "twitter":
-                YMSocialShare.shareOn(serviceType:.twitter, text:"twitter", url:"www.yudiz.com")
+                YZSocialShare.shareOn(serviceType:.twitter, text:"twitter", url:"www.yudiz.com")
             case "message":
-                YMSocialShare.shareOnMessanger(recipients:"9638527410","9632587410", subject:"Test", body:"Hello")
+                YZSocialShare.shareOnMessanger(recipients:"9638527410","9632587410", subject:"Test", body:"Hello")
             case "message with attachment":
-                let attachment = (data: UIImagePNGRepresentation(#imageLiteral(resourceName: "steve jobs")),fileName:"steve.png")
-                YMSocialShare.shareOnMessanger(recipients:"9638527410","9632587410", subject:"Test", body:"Hello",attachment:attachment)
+            let attachment = (data: #imageLiteral(resourceName: "steve jobs").pngData(),fileName:"steve.png")
+                YZSocialShare.shareOnMessanger(recipients:"9638527410","9632587410", subject:"Test", body:"Hello",attachment:attachment)
             case "mail":
-                YMSocialShare.shareOnMail(recipients:"yogesh@itindia.co.in","abc@mailinator.com","ethon@mailinator.com", subject:"Test", body:"Hello")
+                YZSocialShare.shareOnMail(recipients:"yogesh@itindia.co.in","abc@mailinator.com","ethon@mailinator.com", subject:"Test", body:"Hello")
             case "mail with attachment":
-                let attachment = (data: UIImagePNGRepresentation(#imageLiteral(resourceName: "steve jobs")),fileName:"steve.png")
-                YMSocialShare.shareOnMail(recipients:"yogesh@itindia.co.in", subject:"Test", body:"Hello", attachment:attachment)
+            let attachment = (data: #imageLiteral(resourceName: "steve jobs").pngData(),fileName:"steve.png")
+                YZSocialShare.shareOnMail(recipients:"yogesh@itindia.co.in", subject:"Test", body:"Hello", attachment:attachment)
             case "instagram":
                 
                 /* // Add this key into plist file
@@ -61,9 +61,9 @@ extension ViewController : UITableViewDataSource,UITableViewDelegate {
                  
                  */
                 
-                YMSocialShare.shareOnInstagram(text:"my first post", image:#imageLiteral(resourceName: "steve jobs"))
+                YZSocialShare.shareOnInstagram(text:"my first post", image:#imageLiteral(resourceName: "steve jobs"))
         case "Other App" :
-                YMSocialShare.shareOn(serviceType:.otherApps,text:"Yudiz",image:#imageLiteral(resourceName: "steve jobs"))
+                YZSocialShare.shareOn(serviceType:.otherApps,text:"Yudiz",image:#imageLiteral(resourceName: "steve jobs"))
             default:
                 break
         }

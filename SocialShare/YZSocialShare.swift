@@ -17,7 +17,7 @@ enum ShareType {
 }
 typealias Attachment = (data:Data?, fileName:String)
 
-class YMSocialShare:NSObject {
+class YZSocialShare:NSObject {
     class func shareOn(serviceType:ShareType = ShareType.otherApps,text:String,url:String? = nil, image:UIImage? = nil) {
         switch serviceType {
             case .facebook:
@@ -57,7 +57,7 @@ class YMSocialShare:NSObject {
             present(controller:serviceVC)
             
         } else {
-            UIAlertController.actionWithMessage(message: "Please go to settings and add at least one \(SLServiceTypeFacebook == serviceType ? "facebook" : "twitter") account.", title: "Warning", type: UIAlertControllerStyle.alert, buttons:[], block: { (str) -> Void in
+            UIAlertController.actionWithMessage(message: "Please go to settings and add at least one \(SLServiceTypeFacebook == serviceType ? "facebook" : "twitter") account.", title: "Warning", type: UIAlertController.Style.alert, buttons:[], block: { (str) -> Void in
             })
         }
     }
@@ -94,7 +94,7 @@ class SocialComposer:NSObject,MFMailComposeViewControllerDelegate,MFMessageCompo
             mailComposerVC.addAttachmentData(addtch.0!, mimeType:"", fileName:addtch.1)
         }
         if MFMailComposeViewController.canSendMail() {
-            YMSocialShare.present(controller: mailComposerVC)
+            YZSocialShare.present(controller: mailComposerVC)
         }
     }
     func openMessageComposer(recipients:[String],subject:String?,body:String?,attachment:Attachment?) {
@@ -113,14 +113,14 @@ class SocialComposer:NSObject,MFMailComposeViewControllerDelegate,MFMessageCompo
             messageComposeVC.addAttachmentData(addtch.data!, typeIdentifier:"public.data", filename:addtch.fileName)
         }
         if MFMessageComposeViewController.canSendText() {
-            YMSocialShare.present(controller: messageComposeVC)
+            YZSocialShare.present(controller: messageComposeVC)
         }
     }
     func openInstagram(text:String,image:UIImage) {
         
         let instagramURL = NSURL(string: "instagram://app")
         if (UIApplication.shared.canOpenURL(instagramURL! as URL)) {
-            let imageData = UIImageJPEGRepresentation(image, 100)
+            let imageData = image.jpegData(compressionQuality: 100)
             let captionString = "caption"
             let writePath = (NSTemporaryDirectory() as NSString).appendingPathComponent("instagram.igo")
             
@@ -138,7 +138,7 @@ class SocialComposer:NSObject,MFMailComposeViewControllerDelegate,MFMessageCompo
             
             
         } else {
-            UIAlertController.actionWithMessage(message:"Instagram isn't installed", title: "Warning", type: UIAlertControllerStyle.alert, buttons:[], block: { (str) -> Void in
+            UIAlertController.actionWithMessage(message:"Instagram isn't installed", title: "Warning", type: UIAlertController.Style.alert, buttons:[], block: { (str) -> Void in
             })
             print(" Instagram isn't installed ")
         }
@@ -149,7 +149,7 @@ class SocialComposer:NSObject,MFMailComposeViewControllerDelegate,MFMessageCompo
         let activityViewController = UIActivityViewController(activityItems:[text,url ?? "",image ?? ""], applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = (UIApplication.shared.delegate as! AppDelegate).window?.rootViewController?.view
         //activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
-        YMSocialShare.present(controller: activityViewController)
+        YZSocialShare.present(controller: activityViewController)
     }
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         controller.dismiss(animated: true, completion: nil)
@@ -160,14 +160,14 @@ class SocialComposer:NSObject,MFMailComposeViewControllerDelegate,MFMessageCompo
 }
 
 extension UIAlertController {
-    class func actionWithMessage(message: String?, title: String?, type: UIAlertControllerStyle, buttons: [String],block:@escaping (_ tapped: String)->()) {
+    class func actionWithMessage(message: String?, title: String?, type: UIAlertController.Style, buttons: [String],block:@escaping (_ tapped: String)->()) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: type)
         for btn in buttons {
-            alert.addAction(UIAlertAction(title: btn, style: UIAlertActionStyle.default, handler: { (action) -> Void in
+            alert.addAction(UIAlertAction(title: btn, style: UIAlertAction.Style.default, handler: { (action) -> Void in
                 block(btn)
             }))
         }
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: { (action) -> Void in
             block("Cancel")
         }))
         (UIApplication.shared.delegate as! AppDelegate).window?.rootViewController?.present(alert, animated:true, completion: {
@@ -175,14 +175,14 @@ extension UIAlertController {
         })
     }
     
-    class func actionWithMessageDestructive(message: String?, title: String?, type: UIAlertControllerStyle, buttons: [String], controller: UIViewController ,block:@escaping (_ tapped: String)->()) {
+    class func actionWithMessageDestructive(message: String?, title: String?, type: UIAlertController.Style, buttons: [String], controller: UIViewController ,block:@escaping (_ tapped: String)->()) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: type)
         for btn in buttons {
-            alert.addAction(UIAlertAction(title: btn, style: UIAlertActionStyle.destructive, handler: { (action) -> Void in
+            alert.addAction(UIAlertAction(title: btn, style: UIAlertAction.Style.destructive, handler: { (action) -> Void in
                 block(btn)
             }))
         }
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: { (action) -> Void in
             block("Cancel")
         }))
         controller.present(alert, animated: true, completion: nil)
